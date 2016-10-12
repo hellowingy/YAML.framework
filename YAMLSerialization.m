@@ -231,7 +231,7 @@ static int
 __YAMLSerializationAddObject (yaml_document_t *document, id value) {
     int result = 0;
     if ([value isKindOfClass: [NSDictionary class]] ) {
-        result = yaml_document_add_mapping(document, NULL, YAML_BLOCK_MAPPING_STYLE);
+        result = yaml_document_add_mapping(document, NULL, YAML_FLOW_MAPPING_STYLE);
         for (id key in [value allKeys]) {
             int keyIndex = __YAMLSerializationAddObject(document, key);
             int valueIndex = __YAMLSerializationAddObject(document, [value objectForKey: key]);
@@ -239,7 +239,7 @@ __YAMLSerializationAddObject (yaml_document_t *document, id value) {
         }
     }
     else if ([value isKindOfClass: [NSArray class]]) {
-        result = yaml_document_add_sequence(document, NULL, YAML_BLOCK_SEQUENCE_STYLE);
+        result = yaml_document_add_sequence(document, NULL, YAML_FLOW_SEQUENCE_STYLE);
         for (id element in value) {
             int elementIndex = __YAMLSerializationAddObject(document, element);
             yaml_document_append_sequence_item(document, result, elementIndex);
